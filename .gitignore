@@ -1,0 +1,8 @@
+.vscode
+node_modules
+db-setup-migration-scripts
+db-startup-migration-scripts
+postgres_data
+__pycache__
+.DS_Store
+```
