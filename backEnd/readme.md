@@ -17,12 +17,7 @@ Si tienes docker puedes instalarlo e iniciarlo facilmente con: `docker run --rm 
 En caso de querer administrar la bd y sus tablas, puedes hacerlo a traves de pgadmin
 
 ```
-docker run \
-    --name pgadmin4_container \
-    -e PGADMIN_DEFAULT_EMAIL=admin@admin.com \
-    -e PGADMIN_DEFAULT_PASSWORD=root \
-    -p 5050:80 \
-    dpage/pgadmin4
+docker run --name pgadmin4_container -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=root -p 5050:80 dpage/pgadmin4
 ```
 
 y luego visitar `http://localhost:5050`
