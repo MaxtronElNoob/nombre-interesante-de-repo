@@ -1,58 +1,4 @@
-# Grupo X
 
-Este es el repositorio del grupo X, cuyos integrantes son:
-
-- Integrante 1:
-- Integrante 2:
-- Integrante 3:
-- Tutor:
-
-# Wiki
-
-Puede acceder a la wiki mediante el siguiente enlace **(debe modificar esto y agregar un hipervínculo a la wiki)**
-
-# Videos
-
-- Ingrese los videos aquí
-
-## Clonar el repositorio
-
-Puedes clonar mediente https o ssh, según tu preferencia.
-
-Para https, ejecuta el siguiente comando:
-
-```bash
-git clone <link> # cambiar link por el que aparece en gitlab
-```
-* Se solicitaran tus datos (cuenta y contraseña) para poder acceder al repositorio.
-
-Lo primero es generar una llave ssh (el siguiente tutorial se realizó en macOS, pero deberia funcionar con linux sin problemas)
-
-* Abre un terminal y ejecuta el comando `ssh-keygen -t ed25519 -C "<comment>"`  
-* presiona enter tres veces para dejar el nombre del archivo por defecto
-* Te aparecera un mensaje como el siguiente `Your public key has been saved in /Users/javierperez/.ssh/id_ed25519.pub`
-* Luego ejecuta `nano /Users/javierperez/.ssh/id_ed25519.pub` (cambiar el nombre de usuario por el tuyo)
-* Copiar el contenido del archivo y pegarlo en tu perfil de gitlab en la sección de ssh keys
-* Ahora ya puedes clonar sin problemas
-
-Lo siguiente es clonar el repositorio, para ello debes hacer click en el botón de arriba a la derecha que dice clone, y copiar la url que aparece junto a Clone with SSH.
-
-Ahora en tu computador debes abrir la terminal y ejecutar el siguiente comando:  
-
-```bash
-# remplaza nombreDeUsuario por tu nombre de usuario de gitlab
-git clone git@gitlab.inf.utfsm.cl:javier.perez/codebase-isw-2022-2.git
-```
-
-## Trabajando con docker
-
-Para trabajar con docker debes tener instalado docker y docker-compose en tu computador, para ello puedes seguir las instrucciones de la página oficial de docker.
-
-Una vez instalado docker y docker-compose debes ejecutar el siguiente comando en la raíz del proyecto:
-
-```bash
-docker-compose up
-```
 
 ## Git y sus ramas
 
@@ -83,12 +29,3 @@ Muchas veces ocurrira que esten trabajando en varias features al mismo tiempo, e
 * Se les recomienda encarecidamente que realicen los rebase desde vs code, para poder tener una GUI al momendo de resolver conflictos, vs code les mostrará todos los conflictos por cada archivo modificado y deberán elegir que cambios se mantienen y cuales se descartan.
 
 * Luego hacer commit de los cambios y push de la rama feature.
-
-## Datos db 
-```py
-host="postgres",
-database="isw",
-user="user",
-password="pass"
-
-```
