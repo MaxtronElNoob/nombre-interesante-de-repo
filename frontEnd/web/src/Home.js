@@ -7,9 +7,9 @@ export default function Entrypoint() {
     const [loged, setLoged] = useState(false);
   
     useEffect(() => {
-      if (sessionStorage.getItem("user")){
+      if (sessionStorage.getItem("user")){ // Maybe you could create a view that sets the user in the sessionStorage O:
         setUser(sessionStorage.getItem("user"));
-        setLoged(true);
+        setLoged(true); 
       }
     }, [user, loged]);
   
@@ -19,6 +19,6 @@ return (
     {loged?
      <div>Logged in, username: {user}</div>
       : 
-      <div>Not logged in</div>}
+      <div>Not logged in alksjdas</div>}
     </>
 )}

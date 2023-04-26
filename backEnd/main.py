@@ -33,61 +33,86 @@ while True:
 # create a cursor
 cur = conn.cursor()
 
+# Define your methods here
 
-@app.get("/users", status_code=200)
-def read_users():
-    # execute query
-    cur.execute('SELECT * FROM users')
-    # fetch the result
-    result = cur.fetchall()
-    return {"message": result}
-
-
-class Register(BaseModel):
+class User(BaseModel):
     username: str
     password: str
     email: str
     name: str
 
-
-@app.post("/register", status_code=201)
-async def register_user(item: Register):
-    # execute query
+@app.post("/users")
+async def createUser(user: User):
     try:
-        # check if user exists
-        cur.execute('SELECT * FROM users WHERE username = %s',
-                    (item.username,))
-        result = cur.fetchone()
-        if result:
-            return JSONResponse(status_code=400, content={"message": "User already exists"})
-        cur.execute('INSERT INTO users (username, password, email, name) VALUES (%s, %s, %s, %s)',
-                    (item.username, item.password, item.email, item.name))
-        # TODO: encrypt password
+        cur.execute("INSERT INTO users (username, password, email, name) VALUES (%s, %s, %s, %s)", (user.username, user.password, user.email, user.name))
         conn.commit()
-        return JSONResponse(status_code=201, content={"message": "User created successfully"})
+        return JSONResponse(content= {"message": "User created successfully"}, status_code=status.HTTP_201_CREATED)
     except Exception as e:
         print(e)
-        return JSONResponse(status_code=500, content={"message": "Internal server error"})
-
-
-class Login(BaseModel):
-    username: str
-    password: str
-
-
-@app.post("/login", status_code=200)
-async def login_user(item: Login, response: Response):
-    # execute query
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@app.get("/users")
+async def getUsers():
     try:
-        # check if user exists
-        cur.execute('SELECT * FROM users WHERE username = %s AND password = %s',
-                    (item.username, item.password))
-        result = cur.fetchone()
-        if result:
-            return {"message": "User logged in successfully"}
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        return {"message": "User not found"}
+        cur.execute("SELECT * FROM users")
+        users = cur.fetchall()
+        return JSONResponse(content= {"users": users}, status_code=status.HTTP_200_OK)
     except Exception as e:
         print(e)
-        response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {"message": "error"}
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@app.put("/users/{id}")
+async def update(id: int, user: User):
+    try:
+        cur.execute("UPDATE users SET username = %s, password = %s, email = %s, name = %s WHERE id = %s", (user.username, user.password, user.email, user.name, id))
+        conn.commit()
+        return JSONResponse(content= {"message": "User updated successfully"}, status_code=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@app.delete("/users/{id}")
+async def delete(id: int):
+    try:
+        cur.execute("DELETE FROM users WHERE id = %s", (id,))
+        conn.commit()
+        return JSONResponse(content= {"message": "User deleted successfully"}, status_code=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+# Payments
+class Payment(BaseModel):
+    buyer_id: int
+    seller_id: int
+    amount: int
+    description: str
+
+@app.get("/payments")
+async def getPayments():
+    try:
+        pagos = []
+        cur.execute("SELECT * FROM payments")
+        payments = cur.fetchall()
+        for payment in payments:
+            print(payment)
+            cur.execute("SELECT name FROM users WHERE id = %s", (payment[2],))
+            seller = cur.fetchone()
+            cur.execute("SELECT name FROM users WHERE id = %s", (payment[1],))
+            buyer = cur.fetchone()
+            pagos.append({"id": payment[0], "buyer": buyer[0], "seller": seller[0], "amount": payment[3], "description": payment[4]})
+            print(pagos)
+        return JSONResponse(content= {"payments": pagos}, status_code=status.HTTP_200_OK)
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@app.post("/payments")
+async def createPayment(payment: Payment):
+    try:
+        cur.execute("INSERT INTO payments (buyer_id, seller_id, amount, description) VALUES (%s, %s, %s, %s)", (payment.buyer_id, payment.seller_id, payment.amount, payment.description))
+        conn.commit()
+        return JSONResponse(content= {"message": "Payment created successfully"}, status_code=status.HTTP_201_CREATED)
+    except Exception as e:
+        print(e)
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)

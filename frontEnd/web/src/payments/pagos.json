@@ -1,0 +1,18 @@
+{
+    "payments": [
+        {
+            "id": 1,
+            "seller": "Alonso",
+            "buyer": "Maximiliano",
+            "amount": 1000,
+            "description":"Auto"
+        },
+        {
+            "id": 1,
+            "seller": "Maximiliano",
+            "buyer": "Alonso",
+            "amount": 900,
+            "description":"Casa"
+        }
+    ]
+}
