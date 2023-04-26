@@ -14,8 +14,7 @@ while True:
 cur = conn.cursor()
 
 def createTables():
-
-    # create table users
+    # Define your tables here
 
     cur.execute("""CREATE TABLE IF NOT EXISTS users (
         id serial PRIMARY KEY,
@@ -24,7 +23,21 @@ def createTables():
         email varchar(50) NOT NULL,
         name varchar(50) NOT NULL);""")
     conn.commit()
-
-    print("Table users created successfully")
+    print("Users table created successfully")
+    # Rembember to commit your changes!!
+    cur.execute("""
+       CREATE TABLE IF NOT EXISTS payments (
+        id serial PRIMARY KEY,
+        buyer_id INT NOT NULL,
+        seller_id INT NOT NULL,
+        amount INT NOT NULL,
+        description VARCHAR(255),
+        CONSTRAINT fk_buyer
+            FOREIGN KEY(buyer_id) 
+                REFERENCES users(id),
+        CONSTRAINT fk_seller
+            FOREIGN KEY(seller_id) 
+                REFERENCES users(id));""")
+    conn.commit()
 
     print("All tables created successfully")
