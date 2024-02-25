@@ -1,0 +1,20 @@
+.logof{
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    max-width: 20%;
+}
+.footer{
+    margin-top: 60px;
+    width: 100%;
+    bottom: 0;
+    background-color:#722F37 !important;
+}
+.contacto{
+    justify-content: "center";
+    margin-bottom: 20px !important;
+}
+.links{
+    display: grid;
+    grid-auto-flow: column;
+}

@@ -1,0 +1,12 @@
+.yolanda{
+    max-width: 50%;
+}
+.logof{
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    max-width: 20%;
+}
+.imgvina{
+    width: 100%;
+}
